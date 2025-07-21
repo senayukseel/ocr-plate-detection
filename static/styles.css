@@ -1,0 +1,333 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #dcecf7, #f8e5f5);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+.container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 900px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #7b2ff7, #22c1c3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.file-label {
+    display: inline-block;
+    padding: 15px 25px;
+    background: linear-gradient(90deg, #7b2ff7, #22c1c3);
+    color: white;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.file-label:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(123, 47, 247, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+#file-name {
+    display: block;
+    margin: 10px 0 20px;
+    font-style: italic;
+    color: #555;
+}
+
+button {
+    background: linear-gradient(90deg, #7b2ff7, #22c1c3);
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(123, 47, 247, 0.3);
+}
+
+.result-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.image-box {
+    background: #f7f9fb;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    flex: 1 1 45%;
+    transition: transform 0.3s;
+    min-width: 300px;
+    position: relative;
+}
+
+.image-box:hover {
+    transform: translateY(-5px);
+}
+
+.image-box h3 {
+    margin: 0 0 15px 0;
+    color: #7b2ff7;
+    font-size: 18px;
+}
+
+.image-box p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.image-box strong {
+    color: #22c1c3;
+}
+
+img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-top: 10px;
+    height: auto;
+}
+
+.info-box {
+    margin-top: 30px;
+    background: #e6f7ff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.error-box {
+    margin-top: 20px;
+    background: #ffe6e6;
+    color: #d9534f;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.loading-text {
+    font-size: 18px;
+    color: #7b2ff7;
+    animation: pulse 1.5s infinite;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.history-link a {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: #7b2ff7;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.history-link a:hover {
+    color: #22c1c3;
+}
+
+/* History sayfası için özel stiller */
+#history-list {
+    justify-content: center;
+}
+
+#history-list .image-box {
+    flex: 1 1 300px;
+    max-width: 400px;
+}
+
+#history-list p {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    font-style: italic;
+}
+
+/* History item özel stilleri */
+.history-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.history-header h3 {
+    margin: 0;
+    flex: 1;
+    text-align: left;
+}
+
+.delete-btn {
+    background: linear-gradient(90deg, #ff4757, #ff3742);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.delete-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+}
+
+/* Temizleme butonu stilleri */
+#history-list > div:first-child button {
+    background: linear-gradient(90deg, #ff4757, #ff3742);
+    margin-bottom: 20px;
+    font-size: 14px;
+    padding: 12px 25px;
+}
+
+#history-list > div:first-child button:hover {
+    box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+}
+
+/* Hover efektleri */
+.history-item:hover .delete-btn {
+    opacity: 1;
+}
+
+/* Silme animasyonu */
+.history-item.deleting {
+    animation: slideOut 0.5s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes slideOut {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(-20px) scale(0.95);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateX(-100%) scale(0.9);
+        opacity: 0;
+    }
+}
+
+/* History item hover efektleri */
+.history-item {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.history-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.history-item:hover::before {
+    left: 100%;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-up {
+    animation: slideUp 1s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .result-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .info-box {
+        text-align: center;
+    }
+    .image-box {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    .history-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .delete-btn {
+        align-self: flex-end;
+    }
+}

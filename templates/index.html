@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plaka Tespit Sistemi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container fade-in">
+        <h1 class="gradient-text">🚗 Plaka Tespit Sistemi</h1>
+        <p>Görsel yükleyerek plaka tespiti ve OCR sonucu alın.</p>
+
+        <form id="upload-form" enctype="multipart/form-data" class="slide-up">
+            <label for="image" class="file-label">📁 Görsel Seçin</label>
+            <input type="file" name="image" id="image" accept="image/*" required hidden>
+            <span id="file-name">Henüz dosya seçilmedi</span>
+            <button type="submit">📸 Tahmin Et</button>
+        </form>
+
+        <div id="loading" class="loading-text" style="display:none">⏳ İşleniyor...</div>
+
+        <div id="result" style="display:none">
+            <h2 class="gradient-text">🔎 Tespit Sonucu</h2>
+            <div class="result-grid">
+                <div class="image-box fade-in">
+                    <h3>Orijinal Görsel</h3>
+                    <img id="original-img" src="#" alt="Orijinal Görsel">
+                </div>
+                <div class="image-box fade-in">
+                    <h3>İşaretlenmiş Görsel</h3>
+                    <img id="annotated-img" src="#" alt="Tespitli Görsel">
+                </div>
+            </div>
+
+            <div class="info-box slide-up">
+                <h3>Tespit Bilgileri</h3>
+                <p><strong>Model Güveni:</strong> <span id="confidence"></span>%</p>
+                <p><strong>OCR Sonucu:</strong> <span id="plate-text"></span></p>
+                <div class="action-buttons">
+                    <button id="download-btn">⬇️ İndir</button>
+                    <button id="share-btn">🔗 Paylaş</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="error" class="error-box slide-up" style="display:none"></div>
+
+        <div class="history-link">
+            <a href="{{ url_for('history') }}">Yapılan Son İşlemler</a>
+        </div>
+    </div>
+
+    <script>
+    const form = document.getElementById('upload-form');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const error = document.getElementById('error');
+    const fileInput = document.getElementById('image');
+    const fileName = document.getElementById('file-name');
+    const downloadBtn = document.getElementById('download-btn');
+    const shareBtn = document.getElementById('share-btn');
+
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files.length > 0) {
+            fileName.innerText = fileInput.files[0].name;
+        } else {
+            fileName.innerText = "Henüz dosya seçilmedi";
+        }
+    });
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        result.style.display = 'none';
+        error.style.display = 'none';
+        loading.style.display = 'block';
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+
+            loading.style.display = 'none';
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('confidence').innerText = data.confidence;
+                document.getElementById('plate-text').innerText = data.plate_text;
+                document.getElementById('original-img').src = URL.createObjectURL(fileInput.files[0]);
+                document.getElementById('annotated-img').src = data.annotated_image;
+                result.style.display = 'block';
+
+                // Görseli kaydet localStorage'a
+                try {
+                    const previousHistory = JSON.parse(localStorage.getItem('history') || '[]');
+                    previousHistory.unshift({
+                        timestamp: new Date().toLocaleString('tr-TR'),
+                        annotated_image: data.annotated_image,
+                        plate_text: data.plate_text,
+                        confidence: data.confidence
+                    });
+                    
+                    localStorage.setItem('history', JSON.stringify(previousHistory));
+                } catch (storageError) {
+                    console.error('LocalStorage hatası:', storageError);
+                }
+            } else {
+                const err = await response.json();
+                error.style.display = 'block';
+                error.innerText = err.error || 'Bir hata oluştu.';
+            }
+        } catch (fetchError) {
+            loading.style.display = 'none';
+            error.style.display = 'block';
+            error.innerText = 'Bağlantı hatası oluştu.';
+            console.error('Fetch hatası:', fetchError);
+        }
+    });
+
+    downloadBtn.addEventListener('click', function() {
+        const annotatedImg = document.getElementById('annotated-img').src;
+        const a = document.createElement('a');
+        a.href = annotatedImg;
+        a.download = 'isaretlenmis_gorsel.jpg';
+        a.click();
+    });
+
+    shareBtn.addEventListener('click', async function() {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Plaka Tespit Sonucu',
+                    text: `OCR sonucu: ${document.getElementById('plate-text').innerText}`,
+                    url: window.location.href
+                });
+            } catch (err) {
+                alert('Paylaşma iptal edildi veya hata oluştu.');
+            }
+        } else {
+            alert('Paylaşma desteği bulunmuyor.');
+        }
+    });
+    </script>
+</body>
+</html>

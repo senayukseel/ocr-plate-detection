@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapılan Son İşlemler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script defer src="{{ url_for('static', filename='history.js') }}"></script>
+</head>
+<body>
+    <div class="container fade-in">
+        <h1 class="gradient-text">Geçmiş İşlemler</h1>
+        <p>Yapılan tüm işlemleri burada görebilir ve yönetebilirsiniz.</p>
+
+        <div id="history-list" class="result-grid">
+            <!-- Geçmiş işlemler burada listelenecek -->
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="{{ url_for('home') }}" class="file-label">🔙 Ana Sayfaya Dön</a>
+        </div>
+    </div>
+</body>
+</html>
