@@ -1,6 +1,6 @@
 # Plaka Tespit Sistemi
 
-Bu proje, YOLO modeli kullanarak plaka tespiti yapan ve EasyOCR ile plaka metnini okuyan bir web uygulamasıdır.
+Bu proje, YOLO modeli kullanarak plaka tespiti yapan ve OCR ile plaka metnini okuyan bir web uygulamasıdır.
 
 ## Özellikler
 
