@@ -73,4 +73,4 @@ hw6-plate-ui/
 ![UI Görsel](./ui-images/1.png)
 ![UI Görsel](./ui-images/2.png)
 ![UI Görsel](./ui-images/3.png)
-![UI Görsel](./ui-images/isaretli_gorsel.png)
+![UI Görsel](./ui-images/isaretli_gorsel.jpg)
